@@ -1,0 +1,11 @@
+{
+    "lattice_constant": 5.43,
+    "xdim": 2,
+    "ydim": 2,
+    "zdim": 2,
+    "temperature": 300,
+    "pressure": 0.0,
+    "steps": 50000,
+    "mass": 28.02,
+    "potential_path":"../potentials/Si.sw"
+}
