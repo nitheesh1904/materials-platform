@@ -1,8 +1,8 @@
 {
     "lattice_constant": 5.43,
-    "xdim": 2,
-    "ydim": 2,
-    "zdim": 2,
+    "xdim": 3,
+    "ydim": 3,
+    "zdim": 3,
     "temperature": 300,
     "pressure": 0.0,
     "steps": 50000,
