@@ -3,7 +3,7 @@
     "xdim": 3,
     "ydim": 3,
     "zdim": 3,
-    "temperature": 300,
+    "temperature": 700,
     "pressure": 0.0,
     "steps": 50000,
     "mass": 28.02,
