@@ -12,6 +12,8 @@ python ../structures/structure_generation.py "$CONFIG"
 
 echo "Structure generated.Initiating MD simualtion."
 
+temperature=$(jq -r '.temperature' "$CONFIG")
+
 while IFS='=' read -r key value; do
     lmp_args+=(-var "$key" "$value")
 done < <(
@@ -20,4 +22,4 @@ done < <(
 
 echo "${lmp_args[@]}"
 
-lmp "${lmp_args[@]}" -log ../logs/lattice_parameter.log -in ../inputs/lattice_parameter.in
+lmp "${lmp_args[@]}" -log "../logs/lattice_parameter_${temperature}.log" -in ../inputs/lattice_parameter.in

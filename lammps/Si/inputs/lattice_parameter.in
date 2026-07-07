@@ -1,9 +1,4 @@
 
-# ------------- Logs -----------------
-
-log ../logs/lattice_parameter.log
-
-
 # ------------------ Initialization ------------------
 units           metal
 boundary        p p p
@@ -56,7 +51,7 @@ fix 1 all npt temp ${temperature} ${temperature} 0.1 iso ${pressure} ${pressure}
 variable dump_path string "../results/lattice_parameter/si_out_${temperature}.dat"
 
 dump 1 all custom 5000 ${dump_path} mass type xs ys zs
-print "Hii"
+
 dump_modify 1 sort id
 
 variable first_run_step equal ${steps}  
