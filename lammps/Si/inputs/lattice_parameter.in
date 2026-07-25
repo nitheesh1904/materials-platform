@@ -75,8 +75,9 @@ variable Ecoh equal c_eatoms/count(all)
 variable Temp equal temp
 variable Press equal press
 variable Vol equal vol
+variable natoms equal count(all)
 
-fix avg all ave/time ${sample_interval} ${nsamples} ${first_run_step} v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol file ../results/lattice_parameter/box_average_${temperature}.dat
+fix avg all ave/time ${sample_interval} ${nsamples} ${first_run_step} v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol v_natoms file ../results/lattice_parameter/box_average_${temperature}.dat
 
 # ---------- Production ----------
 run ${first_run_step}

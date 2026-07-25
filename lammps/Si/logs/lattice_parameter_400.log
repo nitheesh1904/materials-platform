@@ -23,7 +23,7 @@ Reading data file ...
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   216 atoms
-  read_data CPU = 0.001 seconds
+  read_data CPU = 0.002 seconds
 
 # ------------------ Interatomic Potential -----------------
 # Using the standard Stillinger-Weber (SW) potential
@@ -60,9 +60,9 @@ Per MPI rank memory allocation (min/avg/max) = 4.343 | 4.343 | 4.343 Mbytes
    Step          Temp          PotEng         Press          Volume    
          0   0             -936.70522      532.56802      4322.7812    
          1   0             -936.70522      532.56802      4322.7812    
-Loop time of 0.000364724 on 1 procs for 1 steps with 216 atoms
+Loop time of 0.00072297 on 1 procs for 1 steps with 216 atoms
 
-98.7% CPU use with 1 MPI tasks x 1 OpenMP threads
+98.2% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 Minimization stats:
   Stopping criterion = quadratic factors are zero
@@ -76,12 +76,12 @@ Minimization stats:
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.00034104 | 0.00034104 | 0.00034104 |   0.0 | 93.51
+Pair    | 0.00067685 | 0.00067685 | 0.00067685 |   0.0 | 93.62
 Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 9.589e-06  | 9.589e-06  | 9.589e-06  |   0.0 |  2.63
+Comm    | 1.7543e-05 | 1.7543e-05 | 1.7543e-05 |   0.0 |  2.43
 Output  | 0          | 0          | 0          |   0.0 |  0.00
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 1.41e-05   |            |       |  3.86
+Other   |            | 2.857e-05  |            |       |  3.95
 
 Nlocal:            216 ave         216 max         216 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -5134,20 +5134,20 @@ Per MPI rank memory allocation (min/avg/max) = 3.218 | 3.218 | 3.218 Mbytes
      49980   404.9284      -925.68044      4921.5888      4323.9054    
      49990   400.6397      -925.59285      7136.7044      4315.0369    
      50000   421.9247      -926.22204      8247.9784      4309.5131    
-Loop time of 11.7072 on 1 procs for 50000 steps with 216 atoms
+Loop time of 16.9907 on 1 procs for 50000 steps with 216 atoms
 
-Performance: 369.003 ns/day, 0.065 hours/ns, 4270.864 timesteps/s, 922.507 katom-step/s
-99.1% CPU use with 1 MPI tasks x 1 OpenMP threads
+Performance: 254.257 ns/day, 0.094 hours/ns, 2942.789 timesteps/s, 635.642 katom-step/s
+98.8% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 11.149     | 11.149     | 11.149     |   0.0 | 95.23
+Pair    | 16.181     | 16.181     | 16.181     |   0.0 | 95.23
 Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 0.14064    | 0.14064    | 0.14064    |   0.0 |  1.20
-Output  | 0.04769    | 0.04769    | 0.04769    |   0.0 |  0.41
-Modify  | 0.33463    | 0.33463    | 0.33463    |   0.0 |  2.86
-Other   |            | 0.03526    |            |       |  0.30
+Comm    | 0.20509    | 0.20509    | 0.20509    |   0.0 |  1.21
+Output  | 0.062463   | 0.062463   | 0.062463   |   0.0 |  0.37
+Modify  | 0.49041    | 0.49041    | 0.49041    |   0.0 |  2.89
+Other   |            | 0.05175    |            |       |  0.30
 
 Nlocal:            216 ave         216 max         216 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -5179,12 +5179,13 @@ variable Ecoh equal c_eatoms/count(all)
 variable Temp equal temp
 variable Press equal press
 variable Vol equal vol
+variable natoms equal count(all)
 
-fix avg all ave/time ${sample_interval} ${nsamples} ${first_run_step} v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol file ../results/lattice_parameter/box_average_${temperature}.dat
-fix avg all ave/time 100 ${nsamples} ${first_run_step} v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol file ../results/lattice_parameter/box_average_${temperature}.dat
-fix avg all ave/time 100 500 ${first_run_step} v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol file ../results/lattice_parameter/box_average_${temperature}.dat
-fix avg all ave/time 100 500 50000 v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol file ../results/lattice_parameter/box_average_${temperature}.dat
-fix avg all ave/time 100 500 50000 v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol file ../results/lattice_parameter/box_average_400.dat
+fix avg all ave/time ${sample_interval} ${nsamples} ${first_run_step} v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol v_natoms file ../results/lattice_parameter/box_average_${temperature}.dat
+fix avg all ave/time 100 ${nsamples} ${first_run_step} v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol v_natoms file ../results/lattice_parameter/box_average_${temperature}.dat
+fix avg all ave/time 100 500 ${first_run_step} v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol v_natoms file ../results/lattice_parameter/box_average_${temperature}.dat
+fix avg all ave/time 100 500 50000 v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol v_natoms file ../results/lattice_parameter/box_average_${temperature}.dat
+fix avg all ave/time 100 500 50000 v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol v_natoms file ../results/lattice_parameter/box_average_400.dat
 
 # ---------- Production ----------
 run ${first_run_step}
@@ -10192,20 +10193,20 @@ Per MPI rank memory allocation (min/avg/max) = 4.487 | 4.487 | 4.487 Mbytes
      99980   388.84336     -925.97582      974.74429      4339.2234    
      99990   362.92587     -925.16991      2662.3572      4332.5821    
     100000   412.40887     -926.44389      3952.9942      4327.1436    
-Loop time of 11.809 on 1 procs for 50000 steps with 216 atoms
+Loop time of 11.7478 on 1 procs for 50000 steps with 216 atoms
 
-Performance: 365.823 ns/day, 0.066 hours/ns, 4234.061 timesteps/s, 914.557 katom-step/s
-99.1% CPU use with 1 MPI tasks x 1 OpenMP threads
+Performance: 367.727 ns/day, 0.065 hours/ns, 4256.104 timesteps/s, 919.318 katom-step/s
+99.2% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 11.244     | 11.244     | 11.244     |   0.0 | 95.22
+Pair    | 11.182     | 11.182     | 11.182     |   0.0 | 95.19
 Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 0.14019    | 0.14019    | 0.14019    |   0.0 |  1.19
-Output  | 0.041339   | 0.041339   | 0.041339   |   0.0 |  0.35
-Modify  | 0.34868    | 0.34868    | 0.34868    |   0.0 |  2.95
-Other   |            | 0.03482    |            |       |  0.29
+Comm    | 0.14038    | 0.14038    | 0.14038    |   0.0 |  1.19
+Output  | 0.039212   | 0.039212   | 0.039212   |   0.0 |  0.33
+Modify  | 0.35062    | 0.35062    | 0.35062    |   0.0 |  2.98
+Other   |            | 0.03536    |            |       |  0.30
 
 Nlocal:            216 ave         216 max         216 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -10223,4 +10224,4 @@ Dangerous builds = 0
 
 print "Lattice parameter simulation completed for Si at ${temperature} K."
 Lattice parameter simulation completed for Si at 400 K.
-Total wall time: 0:00:23
+Total wall time: 0:00:28
