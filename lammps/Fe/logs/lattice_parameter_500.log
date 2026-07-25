@@ -1,0 +1,119 @@
+LAMMPS (30 Mar 2026)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+
+# ------------------ Initialization ------------------
+units           metal
+boundary        p p p
+atom_style      atomic
+
+# ------------------ Geometry Generation -------------
+# Silicon diamond cubic lattice constant is 5.431 Angstroms
+
+variable pwd_path getenv PWD
+
+variable structure_file string ../structures/si_structure.txt
+
+read_data ../structures/si_structure.txt
+Reading data file ...
+  orthogonal box = (0 0 0) to (16.29 16.29 16.29)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  216 atoms
+  read_data CPU = 0.002 seconds
+
+# ------------------ Interatomic Potential -----------
+# Using the standard Stillinger-Weber (SW) potential
+pair_style      sw
+pair_coeff      * * ../potentials/Si.sw Si
+Reading sw potential file ../potentials/Si.sw with DATE: 2007-06-11
+
+
+# ------------------ Compute -----------------
+compute eng all pe/atom 	# a variable named 'eng' is defined to store the potential energy for each atom
+compute eatoms all reduce sum c_eng  #a variable named 'eatoms' is defined to store the sum of all 'eng' values
+compute new all temp
+
+
+# ------------------ Energy Minimization -------------
+# Relax the structure to remove any initial overlapping/strain
+thermo          10
+thermo_style    custom step temp pe press vol
+
+minimize 1.0e-6 1.0e-6 5000 10000
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 5.77118
+  ghost atom cutoff = 5.77118
+  binsize = 2.88559, bins = 6 6 6
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair sw, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 4.343 | 4.343 | 4.343 Mbytes
+   Step          Temp          PotEng         Press          Volume    
+         0   0             -936.70522      532.56802      4322.7812    
+         1   0             -936.70522      532.56802      4322.7812    
+Loop time of 0.00072166 on 1 procs for 1 steps with 216 atoms
+
+98.2% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = quadratic factors are zero
+  Energy initial, next-to-last, final = 
+     -936.705223045316  -936.705223045316  -936.705223045316
+  Force two-norm initial, final = 1.1685261e-17 1.1685261e-17
+  Force max component initial, final = 8.6736205e-19 8.6736205e-19
+  Final line search alpha, max atom move = 1 8.6736205e-19
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.00067763 | 0.00067763 | 0.00067763 |   0.0 | 93.90
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 1.7433e-05 | 1.7433e-05 | 1.7433e-05 |   0.0 |  2.42
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 2.66e-05   |            |       |  3.69
+
+Nlocal:            216 ave         216 max         216 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            950 ave         950 max         950 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:         7344 ave        7344 max        7344 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 7344
+Ave neighs/atom = 34
+Neighbor list builds = 0
+Dangerous builds = 0
+
+# ------------------ Equilibration (NVT/NPT) ---------
+reset_timestep  0
+velocity all create ${temperature} 87287 loop geom
+velocity all create 500 87287 loop geom
+
+# Reference timestep for metal units with Silicon is typically 1-2 fs
+timestep        0.001
+
+
+# Tdamp - 100*Timestep
+# Pdamp - 1000*Timestep
+#
+# Run NPT to fix temperature at 300K and pressure at 0 Bar
+fix 1 all npt temp ${temperature} ${temperature} 0.1 iso ${pressure} ${pressure} 1.0
+fix 1 all npt temp 500 ${temperature} 0.1 iso ${pressure} ${pressure} 1.0
+fix 1 all npt temp 500 500 0.1 iso ${pressure} ${pressure} 1.0
+fix 1 all npt temp 500 500 0.1 iso 0.0 ${pressure} 1.0
+fix 1 all npt temp 500 500 0.1 iso 0.0 0.0 1.0
+
+fix avg all ave/time 10 100 1000 lx ly lz
+ERROR: No values from computes, fixes, or variables used in fix ave/time command (src/fix_ave_time.cpp:71)
+Last input line: fix avg all ave/time 10 100 1000 lx ly lz 
+                                                  ^^
