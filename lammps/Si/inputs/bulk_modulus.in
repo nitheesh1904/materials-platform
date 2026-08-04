@@ -1,0 +1,47 @@
+# ----------------------------------------------------------
+# Bulk Modulus Calculation of Silicon
+# ----------------------------------------------------------
+
+units           metal
+boundary        p p p
+atom_style      atomic
+
+# ------------------ Geometry Generation -------------
+
+variable pwd_path getenv PWD
+
+print "${pwd_path}"
+
+variable structure_file_name string ${structure_file_path}si_structure_${lattice_constant}.txt
+
+read_data ${structure_file_name}
+
+# ------------------ Interatomic Potential -----------------
+# Using the standard Stillinger-Weber (SW) potential
+pair_style      sw
+pair_coeff      * * ${potential_path} Si
+
+neighbor 2.0 bin
+neigh_modify delay 10
+
+# ---------- Thermo ----------
+thermo 1
+thermo_style custom step pe press vol lx ly lz
+
+# ---------- Energy Minimization ----------
+reset_timestep 0
+
+min_style cg
+minimize 1.0e-12 1.0e-12 10000 100000
+
+# ---------- Store Results ----------
+variable Etot equal pe
+variable Vol equal vol
+variable Press equal press
+
+
+print "Lattice_constant Volume Total_energy Pressure" append ../results/bulk_modulus/E_vs_V.txt
+print "${lattice_constant} ${Vol} ${Etot} ${Press}" append ../results/bulk_modulus/E_vs_V.txt
+print "Finished simulation for lattice constant = ${lattice_constant}"
+
+

@@ -18,7 +18,7 @@ read_data ../structures/si_structure.txt
 # ------------------ Interatomic Potential -----------------
 # Using the standard Stillinger-Weber (SW) potential
 pair_style      sw
-pair_coeff      * * ../potentials/Si.sw Si
+pair_coeff      * * ${potential_file} Si
 
 
 # ------------------ Compute -----------------

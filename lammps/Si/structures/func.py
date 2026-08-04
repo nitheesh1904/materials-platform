@@ -1,12 +1,21 @@
-
 import numpy as np
 import os
 
-def create_structure_si(dimx, dimy, dimz, mass,lp):
+def create_structure_si(dimx, dimy, dimz, mass,lp, output_path=None):
     input_file = os.path.join(os.getcwd(),"..", "structures","sample.dat")
     xs_list = []
     ys_list = []
     zs_list = []
+
+    filename = f"si_structure_{lp:.2f}.txt"
+    
+    # 2. If no directory is passed, fall back to your default relative path
+    if output_path is None:
+        target_path = os.path.join(os.getcwd(), "..", "structures", filename)
+    else:
+        # Resolve the relative path parameter against the current working directory
+        target_path = os.path.abspath(os.path.join(output_path, filename))
+    os.makedirs(os.path.dirname(target_path), exist_ok=True)
 
     # Read the data from the file
     with open(input_file, 'r') as infile:
@@ -70,7 +79,7 @@ def create_structure_si(dimx, dimy, dimz, mass,lp):
     sorted_data = data[sorted_indices]
     total_atoms=num_atoms
     
-    with open(os.path.join(os.getcwd(), ".." , "structures","si_structure.txt"), 'w') as file:
+    with open(target_path, 'w') as file:
         file.write('LAMMPS data file via write_data, version 27 Jun 2024, timestep = 1, units = metal\n\n')
         file.write(f'{total_atoms} atoms\n')
         file.write(f'{num_atom_types} atom types\n\n')
@@ -98,7 +107,4 @@ def create_structure_si(dimx, dimy, dimz, mass,lp):
             file.write(row_str + '\n')
 
     return translated_arrays
-
-
-
 
