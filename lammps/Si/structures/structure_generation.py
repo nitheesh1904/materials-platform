@@ -13,10 +13,11 @@ y_dim = int(config["ydim"])
 z_dim = int(config["zdim"])
 mass = float(config["mass"])
 lattice_constant = float(config["lattice_constant"])
+structure_file_path=config["structure_file_path"]
 
 print(f"Creating super cell of size: {x_dim} x {y_dim} x {z_dim}")
 
 print(f"Mass of Atom: {mass}")
 
-print(f"Lattice constant: {lattice_constant}")
-create_structure_si(x_dim, y_dim, z_dim, mass, lattice_constant)
+print(f"Lattice constant: {lattice_constant:.2f}")
+create_structure_si(x_dim, y_dim, z_dim, mass, lattice_constant, structure_file_path)

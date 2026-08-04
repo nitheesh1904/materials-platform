@@ -1,0 +1,13 @@
+{
+    "lattice_constant_start": 5.20,
+    "lattice_constant_end": 5.70,
+    "lattice_constant_step":0.05,
+    "xdim": 3,
+    "ydim": 3,
+    "zdim": 3,
+    "pressure": 0.0,
+    "steps": 50000,
+    "mass": 28.02,
+    "potential_path":"../potentials/Si.sw",
+    "structure_file_path":"../structures/bulk_modulus/"
+}
