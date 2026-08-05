@@ -40,7 +40,7 @@ variable Vol equal vol
 variable Press equal press
 
 
-print "Lattice_constant Volume Total_energy Pressure" append ../results/bulk_modulus/E_vs_V.txt
+# print "Lattice_constant Volume Total_energy Pressure" append ../results/bulk_modulus/E_vs_V.txt
 print "${lattice_constant} ${Vol} ${Etot} ${Press}" append ../results/bulk_modulus/E_vs_V.txt
 print "Finished simulation for lattice constant = ${lattice_constant}"
 

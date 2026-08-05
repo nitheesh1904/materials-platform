@@ -65,9 +65,9 @@ Per MPI rank memory allocation (min/avg/max) = 4.218 | 4.218 | 4.218 Mbytes
    Step         PotEng         Press          Volume           Lx             Ly             Lz      
          0  -909.14873     -119062.61      5000.211       17.1           17.1           17.1         
          1  -909.14873     -119062.61      5000.211       17.1           17.1           17.1         
-Loop time of 0.000356485 on 1 procs for 1 steps with 216 atoms
+Loop time of 0.000360674 on 1 procs for 1 steps with 216 atoms
 
-88.6% CPU use with 1 MPI tasks x 1 OpenMP threads
+81.0% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 Minimization stats:
   Stopping criterion = energy tolerance
@@ -81,12 +81,12 @@ Minimization stats:
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.00033254 | 0.00033254 | 0.00033254 |   0.0 | 93.28
+Pair    | 0.00033355 | 0.00033355 | 0.00033355 |   0.0 | 92.48
 Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 9.046e-06  | 9.046e-06  | 9.046e-06  |   0.0 |  2.54
+Comm    | 9.218e-06  | 9.218e-06  | 9.218e-06  |   0.0 |  2.56
 Output  | 0          | 0          | 0          |   0.0 |  0.00
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 1.49e-05   |            |       |  4.18
+Other   |            | 1.79e-05   |            |       |  4.96
 
 Nlocal:            216 ave         216 max         216 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -108,8 +108,7 @@ variable Vol equal vol
 variable Press equal press
 
 
-print "Lattice_constant Volume Total_energy Pressure" append ../results/bulk_modulus/E_vs_V.txt
-Lattice_constant Volume Total_energy Pressure
+# print "Lattice_constant Volume Total_energy Pressure" append ../results/bulk_modulus/E_vs_V.txt
 print "${lattice_constant} ${Vol} ${Etot} ${Press}" append ../results/bulk_modulus/E_vs_V.txt
 5.70 5000.211 -909.14873174739 -119062.605324314
 print "Finished simulation for lattice constant = ${lattice_constant}"
