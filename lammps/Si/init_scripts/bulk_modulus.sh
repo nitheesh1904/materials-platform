@@ -21,6 +21,7 @@ read -r start end step <<< "$values"
 
 # 2. Run the loop using seq for decimal stepping
 
+echo "Lattice_constant Volume Total_energy Pressure" > ../results/bulk_modulus/E_vs_V.txt
 
 for a in $(seq "$start" "$step" "$end"); do
 
