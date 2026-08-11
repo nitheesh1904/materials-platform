@@ -22,4 +22,4 @@ done < <(
 
 echo "${lmp_args[@]}"
 
-lmp "${lmp_args[@]}" -log "../logs/lattice_parameter_${temperature}.log" -in ../inputs/lattice_parameter.in
+lmp "${lmp_args[@]}" -log "../logs/lattice_parameter/lattice_parameter_${temperature}.log" -in ../inputs/lattice_parameter.in
