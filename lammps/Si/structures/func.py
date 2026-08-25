@@ -7,7 +7,7 @@ def create_structure_si(dimx, dimy, dimz, mass,lp, output_path=None):
     ys_list = []
     zs_list = []
 
-    filename = f"si_structure_{lp:.2f}.txt"
+    filename = f"si_structure_{lp}.txt"
     
     # 2. If no directory is passed, fall back to your default relative path
     if output_path is None:
