@@ -1,3 +1,4 @@
+
 import json
 import sys
 from func import create_structure_si
@@ -21,3 +22,4 @@ print(f"Mass of Atom: {mass}")
 
 print(f"Lattice constant: {lattice_constant:.2f}")
 create_structure_si(x_dim, y_dim, z_dim, mass, lattice_constant, structure_file_path)
+

@@ -3,10 +3,10 @@
     "xdim": 3,
     "ydim": 3,
     "zdim": 3,
-    "temperature": 0,
+    "temperature": 100,
     "pressure": 0.0,
     "steps": 50000,
     "mass": 28.02,
     "potential_path":"../potentials/Si.sw",
-    "structure_file_path":"../structures/si_structure.txt"
+    "structure_file_path":"../structures/"
 }
