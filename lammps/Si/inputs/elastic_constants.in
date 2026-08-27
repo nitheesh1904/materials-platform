@@ -1,0 +1,171 @@
+# ----------------------------------------------------------
+# Bulk Modulus Calculation of Silicon
+# ----------------------------------------------------------
+units           metal
+boundary        p p p
+atom_style      atomic
+
+# ------------------ Geometry Generation -------------
+
+variable pwd_path getenv PWD
+
+print "${pwd_path}"
+
+variable structure_file_name string ${structure_file_path}si_structure_${lattice_constant}.txt
+
+read_data ${structure_file_name}
+
+# ------------------ Interatomic Potential -----------------
+# Using the standard Stillinger-Weber (SW) potential
+pair_style      sw
+pair_coeff      * * ${potential_path} Si
+
+neighbor 2.0 bin
+neigh_modify delay 10
+
+# ---------- Timestep ----------
+
+timestep 0.001
+reset_timestep 0
+
+
+# ==========================================================
+#                 Z-DIRECTION DEFORMATION
+#                 C11 and C12
+# ==========================================================
+
+# --------- Apply Strain in z-direction ----------
+
+log ${run_dir}/elastic_constants_z.log
+
+compute stressz all pressure NULL virial
+
+# --------- Initial Length -----------
+
+variable il equal lz 
+
+# --------- Applying 2% strain ----------
+
+variable strainz equal 0.02
+
+# --------- Final length --------
+
+variable fl equal (1+v_strainz)*(v_il) 
+
+# strain 
+
+variable ezz equal (lz - ${il})/${il}
+
+# --------------- Deform in z- direction ---------
+
+fix defz all deform 1 z final 0.0 $(v_fl) units box
+
+
+# ---------- Thermo ----------
+thermo 100
+thermo_style custom step time c_stressz[1] c_stressz[2] c_stressz[3] c_stressz[4] c_stressz[5] c_stressz[6] v_ezz lx ly lz
+
+dump 1 all custom 100 ${run_dir}/results/elastic_constants/deformation_z.dat id x y z
+
+run 10000
+
+unfix defz
+
+undump 1
+
+
+# =========================
+# RESET SYSTEM
+# =========================
+
+clear
+
+units           metal
+boundary        p p p
+atom_style      atomic
+
+# ------------------ Geometry Generation -------------
+
+variable pwd_path getenv PWD
+
+print "${pwd_path}"
+
+variable structure_file_name string ${structure_file_path}si_structure_${lattice_constant}.txt
+
+read_data ${structure_file_name}
+
+# ------------------ Interatomic Potential -----------------
+
+# Using the standard Stillinger-Weber (SW) potential
+pair_style      sw
+pair_coeff      * * ${potential_path} Si
+
+neighbor 2.0 bin
+neigh_modify delay 10
+
+change_box all triclinic
+
+# ==========================================================
+#                 XY SHEAR DEFORMATION
+#                 C44
+# ==========================================================
+
+log ${run_dir}/elastic_constants_xy.log
+
+print "Starting XY shear deformation"
+
+variable xy0 equal $(xy)
+
+# Maximum shear strain
+variable strainxy equal 0.02
+
+# Engineering shear strain:
+#
+# gamma_xy = Delta(xy) / Ly
+#
+variable ly0 equal $(ly)
+
+variable ilx equal lx
+variable ily equal ly
+variable ilz equal lz
+
+variable exy equal xy/${ily}
+
+variable exz equal xz/${ilz}
+
+variable eyz equal yz/${ilz}
+
+variable exx equal (lx-${ilx})/${ilx}
+
+variable eyy equal (ly-${ily})/${ily}
+
+variable ezz equal (lz-${ilz})/${ilz}
+
+
+variable xy_final equal v_xy0 + v_strainxy*v_ly0
+
+
+
+# Shear strain
+variable exy equal (xy-v_xy0)/v_ly0
+
+
+
+# Stress tensor
+compute stressxy all pressure NULL virial
+
+# Apply XY shear deformation
+fix defxy all deform 1 xy final $(v_xy_final) units box
+
+thermo          100
+thermo_style    custom step time c_stressxy[1] v_ezz  c_stressxy[2] v_eyy c_stressxy[3] v_ezz c_stressxy[4] v_exy c_stressxy[5] v_exz c_stressxy[6] v_eyz lx ly lz xy
+
+dump 2 all custom 100 ${run_dir}/results/elastic_constants/deformation_xy.dat id type x y z
+
+run 10000
+
+unfix defxy
+undump 2
+
+print "Finished elastic constants calculation"
+

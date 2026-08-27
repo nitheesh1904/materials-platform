@@ -1,0 +1,194 @@
+LAMMPS (30 Mar 2026)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+
+# ------------------ Initialization ------------------
+units           metal
+boundary        p p p
+atom_style      atomic
+
+# ------------------ Geometry Generation -------------
+# Silicon diamond cubic lattice constant is 5.431 Angstroms
+
+variable pwd_path getenv PWD
+
+variable structure_file string ../structures/si_structure.txt
+
+variable first_run_step equal ${steps}
+variable first_run_step equal 50000
+
+read_data ../structures/si_structure.txt
+Reading data file ...
+  orthogonal box = (0 0 0) to (16.29 16.29 16.29)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  216 atoms
+  read_data CPU = 0.001 seconds
+
+# ------------------ Interatomic Potential -----------------
+# Using the standard Stillinger-Weber (SW) potential
+pair_style      sw
+pair_coeff      * * ../potentials/Si.sw Si
+Reading sw potential file ../potentials/Si.sw with DATE: 2007-06-11
+
+
+# ------------------ Compute -----------------
+compute eng all pe/atom
+compute eatoms all reduce sum c_eng
+compute new all temp
+
+
+# ------------------ Energy Minimization -------------
+# Relax the structure to remove any initial overlapping/strain
+thermo          10
+thermo_style    custom step temp pe press vol
+
+minimize 1.0e-6 1.0e-6 5000 10000
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 5.77118
+  ghost atom cutoff = 5.77118
+  binsize = 2.88559, bins = 6 6 6
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair sw, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 4.343 | 4.343 | 4.343 Mbytes
+   Step          Temp          PotEng         Press          Volume    
+         0   0             -936.70522      532.56802      4322.7812    
+         1   0             -936.70522      532.56802      4322.7812    
+Loop time of 0.000364774 on 1 procs for 1 steps with 216 atoms
+
+88.5% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = quadratic factors are zero
+  Energy initial, next-to-last, final = 
+     -936.705223045316  -936.705223045316  -936.705223045316
+  Force two-norm initial, final = 1.1685261e-17 1.1685261e-17
+  Force max component initial, final = 8.6736205e-19 8.6736205e-19
+  Final line search alpha, max atom move = 1 8.6736205e-19
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.00034067 | 0.00034067 | 0.00034067 |   0.0 | 93.39
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 8.816e-06  | 8.816e-06  | 8.816e-06  |   0.0 |  2.42
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.529e-05  |            |       |  4.19
+
+Nlocal:            216 ave         216 max         216 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            950 ave         950 max         950 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:         7344 ave        7344 max        7344 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 7344
+Ave neighs/atom = 34
+Neighbor list builds = 0
+Dangerous builds = 0
+
+# ------------------ Equilibration (NVT/NPT) ---------
+reset_timestep  0
+velocity all create ${temperature} 87287 loop geom
+velocity all create 0 87287 loop geom
+
+# ---------- Timestamp Details ----------
+# Reference timestep for metal units with Silicon is typically 1-2 fs
+timestep        0.001
+
+
+# -------------------- 0 K Static Calculation --------------------
+
+if "${temperature} == 0" then "jump SELF static"
+jump SELF static
+
+print "Running 0 K static calculation"
+Running 0 K static calculation
+
+thermo          10
+thermo_style    custom step temp pe press vol
+
+# Relaxing the box allows atoms to go to their equilibrium positions
+
+fix 1 all box/relax iso 0.0 vmax 0.001
+
+min_style cg
+minimize 1.0e-6 1.0e-6 5000 100000
+WARNING: Energy due to 1 extra global DOFs will be included in minimizer energies
+ (src/min.cpp:222)
+Per MPI rank memory allocation (min/avg/max) = 4.343 | 4.343 | 4.343 Mbytes
+   Step          Temp          PotEng         Press          Volume    
+         0   0             -936.70522      532.56802      4322.7812    
+         1   0             -936.7056      -1.2688962      4325.0553    
+Loop time of 0.0003832 on 1 procs for 1 steps with 216 atoms
+
+96.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -936.705223045316  -936.705223045316  -936.705599979982
+  Force two-norm initial, final = 4.3107143 0.010274306
+  Force max component initial, final = 4.3107143 0.010274306
+  Final line search alpha, max atom move = 0.00023198012 2.3834348e-06
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.00034431 | 0.00034431 | 0.00034431 |   0.0 | 89.85
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 8.626e-06  | 8.626e-06  | 8.626e-06  |   0.0 |  2.25
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 3.027e-05  |            |       |  7.90
+
+Nlocal:            216 ave         216 max         216 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            950 ave         950 max         950 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:         7344 ave        7344 max        7344 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 7344
+Ave neighs/atom = 34
+Neighbor list builds = 0
+Dangerous builds = 0
+variable Etot equal pe
+variable Vol equal vol
+variable Press equal press
+
+
+variable a_x equal lx/${xdim}
+variable a_x equal lx/3
+variable a_y equal ly/${ydim}
+variable a_y equal ly/3
+variable a_z equal lz/${zdim}
+variable a_z equal lz/3
+
+variable a_eq equal (v_a_x+v_a_y+v_a_z)/3.0
+
+print "Lattice_parameter Volume Total_enregy Pressure" append ../results/lattice_parameter/box_average_${temperature}.dat
+print "Lattice_parameter Volume Total_enregy Pressure" append ../results/lattice_parameter/box_average_0.dat
+Lattice_parameter Volume Total_enregy Pressure
+print "${a_eq} ${Vol} ${Etot} ${Press}" append ../results/lattice_parameter/box_average_${temperature}.dat
+print "${a_eq} ${Vol} ${Etot} ${Press}" append ../results/lattice_parameter/box_average_0.dat
+5.43095204328708 4325.05533066958 -936.705599979982 -1.26889617252095
+
+label end
+
+print "Lattice parameter simulation completed for Si at ${temperature} K."
+Lattice parameter simulation completed for Si at 0 K.
+Total wall time: 0:00:00
