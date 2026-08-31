@@ -1,0 +1,60 @@
+LAMMPS (30 Mar 2026)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+# ----------------------------------------------------------
+# Bulk Modulus Calculation of Silicon
+# ----------------------------------------------------------
+units           metal
+boundary        p p p
+atom_style      atomic
+
+# ------------------ Geometry Generation -------------
+
+variable pwd_path getenv PWD
+
+print "${pwd_path}"
+/home/nitheesh/materials-platform/lammps/Si/init_scripts
+
+variable structure_file_name string ${structure_file_path}si_structure_${lattice_constant}.txt
+variable structure_file_name string ../structures/si_structure_${lattice_constant}.txt
+variable structure_file_name string ../structures/si_structure_5.43095204328708.txt
+
+read_data ${structure_file_name}
+read_data ../structures/si_structure_5.43095204328708.txt
+Reading data file ...
+  orthogonal box = (0 0 0) to (54.30952 54.30952 108.61904)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  16000 atoms
+  read_data CPU = 0.031 seconds
+
+# ------------------ Interatomic Potential -----------------
+# Using the standard Stillinger-Weber (SW) potential
+pair_style      sw
+pair_coeff      * * ${potential_path} Si
+pair_coeff      * * ../potentials/Si.sw Si
+Reading sw potential file ../potentials/Si.sw with DATE: 2007-06-11
+
+neighbor 2.0 bin
+neigh_modify delay 10
+
+# ---------- Timestep ----------
+
+timestep 0.001
+reset_timestep 0
+
+
+# ==========================================================
+#                 Z-DIRECTION DEFORMATION
+#                 C11 and C12
+# ==========================================================
+
+# --------- Apply Strain in z-direction ----------
+
+log ${run_dir}/elastic_constants_z.log
+log ../runs/d6bf6b86-c571-4625-84ed-2c05afb1048c/elastic_constants_z.log
+==========================================
+Elastic constants calculation completed.
+Run ID: 
+Results: ../runs/d6bf6b86-c571-4625-84ed-2c05afb1048c/results/elastic_constants
+==========================================
