@@ -30,7 +30,7 @@ thermo 100
 thermo_style custom step time c_stressz[1] c_stressz[2] c_stressz[3] c_stressz[4] c_stressz[5] c_stressz[6] v_ezz lx ly lz
 
 dump 1 all custom 100 ${run_dir}/results/elastic_constants/deformation_z.dat id x y z
-dump 1 all custom 100 ../runs/4c20c4c4-d685-46aa-9a30-a2c74edc164a/results/elastic_constants/deformation_z.dat id x y z
+dump 1 all custom 100 ../runs/304f5345-aafc-4950-acf0-0966b83ba3a8/results/elastic_constants/deformation_z.dat id x y z
 
 run 10000
 WARNING: No fixes with time integration, atoms won't move
@@ -150,20 +150,20 @@ Per MPI rank memory allocation (min/avg/max) = 7.83 | 7.83 | 7.83 Mbytes
       9800   9.8           -14285.795     -14285.795     -29029.456     -0.0084387784   0.0064233209   0.0064233209   0.0196         54.30952       54.30952       110.74797    
       9900   9.9           -14424.676     -14424.676     -29318.99      -0.0084346983   0.006420007    0.006420007    0.0198         54.30952       54.30952       110.7697     
      10000   10            -14563.423     -14563.423     -29608.388     -0.0084306201   0.0064166946   0.0064166946   0.02           54.30952       54.30952       110.79142    
-Loop time of 75.3588 on 1 procs for 10000 steps with 16000 atoms
+Loop time of 78.4081 on 1 procs for 10000 steps with 16000 atoms
 
-Performance: 11.465 ns/day, 2.093 hours/ns, 132.698 timesteps/s, 2.123 Matom-step/s
-99.4% CPU use with 1 MPI tasks x 1 OpenMP threads
+Performance: 11.019 ns/day, 2.178 hours/ns, 127.538 timesteps/s, 2.041 Matom-step/s
+99.1% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 72.207     | 72.207     | 72.207     |   0.0 | 95.82
-Neigh   | 0.052018   | 0.052018   | 0.052018   |   0.0 |  0.07
-Comm    | 0.48459    | 0.48459    | 0.48459    |   0.0 |  0.64
-Output  | 1.5458     | 1.5458     | 1.5458     |   0.0 |  2.05
-Modify  | 0.62612    | 0.62612    | 0.62612    |   0.0 |  0.83
-Other   |            | 0.4437     |            |       |  0.59
+Pair    | 74.663     | 74.663     | 74.663     |   0.0 | 95.22
+Neigh   | 0.052472   | 0.052472   | 0.052472   |   0.0 |  0.07
+Comm    | 0.78893    | 0.78893    | 0.78893    |   0.0 |  1.01
+Output  | 1.5579     | 1.5579     | 1.5579     |   0.0 |  1.99
+Modify  | 0.72933    | 0.72933    | 0.72933    |   0.0 |  0.93
+Other   |            | 0.6163     |            |       |  0.79
 
 Nlocal:          16000 ave       16000 max       16000 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -236,5 +236,5 @@ Changing box ...
 #                 C44
 # ==========================================================
 
-log ${run_dir}/elastic_constants_xy.log
-log ../runs/4c20c4c4-d685-46aa-9a30-a2c74edc164a/elastic_constants_xy.log
+log ${run_dir}/results/elastic_constants/elastic_constants_xy.log
+log ../runs/304f5345-aafc-4950-acf0-0966b83ba3a8/results/elastic_constants/elastic_constants_xy.log

@@ -65,9 +65,9 @@ Per MPI rank memory allocation (min/avg/max) = 4.218 | 4.218 | 4.218 Mbytes
    Step         PotEng         Press          Volume           Lx             Ly             Lz      
          0  -909.14873     -119062.61      5000.211       17.1           17.1           17.1         
          1  -909.14873     -119062.61      5000.211       17.1           17.1           17.1         
-Loop time of 0.000365022 on 1 procs for 1 steps with 216 atoms
+Loop time of 0.000368688 on 1 procs for 1 steps with 216 atoms
 
-65.5% CPU use with 1 MPI tasks x 1 OpenMP threads
+0.0% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 Minimization stats:
   Stopping criterion = energy tolerance
@@ -81,12 +81,12 @@ Minimization stats:
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.00034145 | 0.00034145 | 0.00034145 |   0.0 | 93.54
+Pair    | 0.0003383  | 0.0003383  | 0.0003383  |   0.0 | 91.76
 Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 8.916e-06  | 8.916e-06  | 8.916e-06  |   0.0 |  2.44
+Comm    | 9.058e-06  | 9.058e-06  | 9.058e-06  |   0.0 |  2.46
 Output  | 0          | 0          | 0          |   0.0 |  0.00
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 1.466e-05  |            |       |  4.02
+Other   |            | 2.133e-05  |            |       |  5.79
 
 Nlocal:            216 ave         216 max         216 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -110,7 +110,7 @@ variable Press equal press
 
 # print "Lattice_constant Volume Total_energy Pressure" append ../results/bulk_modulus/E_vs_V.txt
 print "${lattice_constant} ${Vol} ${Etot} ${Press}" append ${run_dir}/results/bulk_modulus/E_vs_V.txt
-print "${lattice_constant} ${Vol} ${Etot} ${Press}" append ../runs/4c20c4c4-d685-46aa-9a30-a2c74edc164a/results/bulk_modulus/E_vs_V.txt
+print "${lattice_constant} ${Vol} ${Etot} ${Press}" append ../runs/304f5345-aafc-4950-acf0-0966b83ba3a8/results/bulk_modulus/E_vs_V.txt
 5.70 5000.211 -909.14873174739 -119062.605324314
 print "Finished simulation for lattice constant = ${lattice_constant}"
 Finished simulation for lattice constant = 5.70
@@ -120,5 +120,5 @@ Total wall time: 0:00:00
 ==========================================
 Bulk Modulus calculation completed
 Run ID: 
-Results: ../runs/4c20c4c4-d685-46aa-9a30-a2c74edc164a/results/bulk_modulus
+Results: ../runs/304f5345-aafc-4950-acf0-0966b83ba3a8/results/bulk_modulus
 ==========================================

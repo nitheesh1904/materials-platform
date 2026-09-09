@@ -61,7 +61,7 @@ thermo          100
 thermo_style    custom step time c_stressxy[1] v_ezz  c_stressxy[2] v_eyy c_stressxy[3] v_ezz c_stressxy[4] v_exy c_stressxy[5] v_exz c_stressxy[6] v_eyz lx ly lz xy
 
 dump 2 all custom 100 ${run_dir}/results/elastic_constants/deformation_xy.dat id type x y z
-dump 2 all custom 100 ../runs/4c20c4c4-d685-46aa-9a30-a2c74edc164a/results/elastic_constants/deformation_xy.dat id type x y z
+dump 2 all custom 100 ../runs/304f5345-aafc-4950-acf0-0966b83ba3a8/results/elastic_constants/deformation_xy.dat id type x y z
 
 run 10000
 WARNING: No fixes with time integration, atoms won't move
@@ -181,20 +181,20 @@ Per MPI rank memory allocation (min/avg/max) = 7.846 | 7.846 | 7.846 Mbytes
       9800   9.8           -258.0207      -3.6632982e-15  441.15784      0              253.31698     -3.6632982e-15 -21505.655      0.0196         0.0066891057   0              0.0065588932   0              54.30952       54.30952       108.61904      1.0644666    
       9900   9.9           -263.28954     -3.6632982e-15  450.23444      0              258.53997     -3.6632982e-15 -21725.032      0.0198         0.0066884322   0              0.006556912    0              54.30952       54.30952       108.61904      1.0753285    
      10000   10            -268.61195     -3.6632982e-15  459.40321      0              263.81601     -3.6632982e-15 -21944.406      0.02           0.006687759    0              0.0065549309   0              54.30952       54.30952       108.61904      1.0861904    
-Loop time of 75.6397 on 1 procs for 10000 steps with 16000 atoms
+Loop time of 77.7745 on 1 procs for 10000 steps with 16000 atoms
 
-Performance: 11.423 ns/day, 2.101 hours/ns, 132.206 timesteps/s, 2.115 Matom-step/s
-99.5% CPU use with 1 MPI tasks x 1 OpenMP threads
+Performance: 11.109 ns/day, 2.160 hours/ns, 128.577 timesteps/s, 2.057 Matom-step/s
+99.1% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 72.325     | 72.325     | 72.325     |   0.0 | 95.62
-Neigh   | 0.03592    | 0.03592    | 0.03592    |   0.0 |  0.05
-Comm    | 0.49458    | 0.49458    | 0.49458    |   0.0 |  0.65
-Output  | 1.7062     | 1.7062     | 1.7062     |   0.0 |  2.26
-Modify  | 0.62787    | 0.62787    | 0.62787    |   0.0 |  0.83
-Other   |            | 0.4496     |            |       |  0.59
+Pair    | 74.032     | 74.032     | 74.032     |   0.0 | 95.19
+Neigh   | 0.036836   | 0.036836   | 0.036836   |   0.0 |  0.05
+Comm    | 0.70404    | 0.70404    | 0.70404    |   0.0 |  0.91
+Output  | 1.7249     | 1.7249     | 1.7249     |   0.0 |  2.22
+Modify  | 0.69928    | 0.69928    | 0.69928    |   0.0 |  0.90
+Other   |            | 0.5773     |            |       |  0.74
 
 Nlocal:          16000 ave       16000 max       16000 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -216,4 +216,4 @@ undump 2
 print "Finished elastic constants calculation"
 Finished elastic constants calculation
 
-Total wall time: 0:02:31
+Total wall time: 0:02:36

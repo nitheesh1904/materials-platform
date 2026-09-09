@@ -26,7 +26,7 @@ Reading data file ...
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   16000 atoms
-  read_data CPU = 0.031 seconds
+  read_data CPU = 0.032 seconds
 
 # ------------------ Interatomic Potential -----------------
 # Using the standard Stillinger-Weber (SW) potential
@@ -51,10 +51,10 @@ reset_timestep 0
 
 # --------- Apply Strain in z-direction ----------
 
-log ${run_dir}/elastic_constants_z.log
-log ../runs/4c20c4c4-d685-46aa-9a30-a2c74edc164a/elastic_constants_z.log
+log ${run_dir}/results/elastic_constants/elastic_constants_z.log
+log ../runs/304f5345-aafc-4950-acf0-0966b83ba3a8/results/elastic_constants/elastic_constants_z.log
 ==========================================
 Elastic constants calculation completed.
 Run ID: 
-Results: ../runs/4c20c4c4-d685-46aa-9a30-a2c74edc164a/results/elastic_constants
+Results: ../runs/304f5345-aafc-4950-acf0-0966b83ba3a8/results/elastic_constants
 ==========================================
