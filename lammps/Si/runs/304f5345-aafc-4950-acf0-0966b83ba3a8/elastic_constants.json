@@ -1,9 +1,0 @@
-{
-    "lattice_constant": 5.43095204328708,
-    "xdim": 10,
-    "ydim": 10,
-    "zdim": 20,
-    "mass": 28.02,
-    "potential_path":"../potentials/Si.sw",
-    "structure_file_path":"../structures/"
-}
