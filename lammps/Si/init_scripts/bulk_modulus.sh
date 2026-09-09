@@ -23,9 +23,7 @@ fi
 # Run setup
 # ============================================================
 
-RUN_ID=$(date +"%Y%m%d_%H%M%S")
-
-RUN_DIR="../runs/${RUN_ID}"
+RUN_DIR=$2
 
 mkdir -p "$RUN_DIR"
 

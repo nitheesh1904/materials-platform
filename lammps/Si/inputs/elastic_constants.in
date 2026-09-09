@@ -36,7 +36,7 @@ reset_timestep 0
 
 # --------- Apply Strain in z-direction ----------
 
-log ${run_dir}/elastic_constants_z.log
+log ${run_dir}/results/elastic_constants/elastic_constants_z.log
 
 compute stressz all pressure NULL virial
 
@@ -110,7 +110,7 @@ change_box all triclinic
 #                 C44
 # ==========================================================
 
-log ${run_dir}/elastic_constants_xy.log
+log ${run_dir}/results/elastic_constants/elastic_constants_xy.log
 
 print "Starting XY shear deformation"
 

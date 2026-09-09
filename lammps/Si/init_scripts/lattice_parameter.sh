@@ -16,10 +16,9 @@ if [ ! -f "$CONFIG" ]; then
     exit 1
 fi
 
-RUN_ID=$(date +"%Y%m%d_%H%M%S")
 
-RUN_DIR="../runs/${RUN_ID}"
-RESULT_DIR="${RUN_DIR}/results"
+RUN_DIR=$2
+RESULT_DIR="${RUN_DIR}/results/lattice_parameter"
 
 mkdir -p "$RESULT_DIR"
 
@@ -78,7 +77,7 @@ echo "${lmp_args[@]}"
 
 lmp "${lmp_args[@]}" \
     -var run_dir "$RUN_DIR" \
-    -log "${RUN_DIR}/lammps.log" \
+    -log "${RESULT_DIR}/lattice_parameter_${temperature}.log" \
     -in ../inputs/lattice_parameter.in
 
 
