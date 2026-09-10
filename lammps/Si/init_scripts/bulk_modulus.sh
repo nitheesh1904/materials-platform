@@ -30,7 +30,9 @@ mkdir -p "$RUN_DIR"
 # Save exact configuration used
 cp "$CONFIG" "$RUN_DIR/"
 
-LOG_PATH="${RUN_DIR}/bulk_modulus.log"
+LOG_PATH="${RUN_DIR}/results/bulk_modulus/bulk_modulus.log"
+
+mkdir -p "${RUN_DIR}/results/bulk_modulus/"
 
 echo "==========================================" >> "$LOG_PATH"
 echo "Run ID: $RUN_ID" >> "$LOG_PATH"
