@@ -32,7 +32,9 @@ mkdir -p "$RUN_DIR/results/elastic_constants"
 cp "$CONFIG" "$RUN_DIR/"
 
 # Log file for this run
-LOG_PATH="${RUN_DIR}/elastic_constants.log"
+LOG_PATH="${RUN_DIR}/results/elastic_constants/elastic_constants.log"
+
+mkdir -p "${RUN_DIR}/results/elastic_constants/"
 
 
 echo "==========================================" >> "$LOG_PATH"
