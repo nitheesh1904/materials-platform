@@ -1,0 +1,3 @@
+# Time-averaged data for fix avg
+# TimeStep v_Lx v_Ly v_Lz v_Etot v_Ecoh v_Temp v_Press v_Vol v_natoms
+100000 16.2994 16.2994 16.2994 -933.922 -4.32371 99.7228 17.0195 4330.24 216
